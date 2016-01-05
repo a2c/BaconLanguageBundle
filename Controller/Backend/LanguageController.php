@@ -324,9 +324,9 @@ class LanguageController extends AdminController
 
         if ($handler->delete($entity)) {
             return $this->redirect($this->generateUrl('admin_language'));
-        } else {
-            return $this->redirect($this->generateUrl('admin_language_show', array('id' => $id)));
         }
+
+        return $this->redirect($this->generateUrl('admin_language_show', array('id' => $id)));
     }
 
 }
