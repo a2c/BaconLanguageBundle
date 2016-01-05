@@ -77,6 +77,7 @@ class LanguageController extends AdminController
     */
     public function searchAction(Request $request)
     {
+        $this->get('session')->remove('language_search_session');
 
         if ($request->getMethod() === Request::METHOD_POST) {
 
@@ -87,11 +88,9 @@ class LanguageController extends AdminController
             $form->handleRequest($request);
 
             $this->get('session')->set('language_search_session',serialize($form->getData()));
-        } else {
-            $this->get('session')->remove('language_search_session');
         }
 
-            return $this->redirect($this->generateUrl('admin_language'));
+        return $this->redirect($this->generateUrl('admin_language'));
     }
 
     /**
