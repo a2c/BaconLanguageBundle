@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Bacon\Bundle\CoreBundle\Controller\AdminController;
-use Bacon\Bundle\CoreBundle\Office\PHPExcel as PHPOfficeExcel;
 use Bacon\Bundle\LanguageBundle\Entity\Language;
 use Bacon\Bundle\LanguageBundle\Form\Type\LanguageFormType;
 use Bacon\Bundle\LanguageBundle\Form\Handler\LanguageFormHandler;
@@ -131,7 +130,7 @@ class LanguageController extends AdminController
      */
     public function createAction(Request $request)
     {
-        $breadcumbs = $this->container->get('a2c_breadcrumbs');
+        $breadcumbs = $this->container->get('bacon_breadcrumbs');
 
         $breadcumbs->addItem(array(
             'title' => 'Language',

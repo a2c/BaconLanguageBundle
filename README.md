@@ -23,6 +23,18 @@ public function registerBundles()
 }
 ```
 
+## Configuração
+
+Adicionar as seguintes linhas no arquivo de configuração de rotas
+
+```yaml
+bacon_language:
+    resource: "@BaconLanguageBundle/Controller/"
+    type:     annotation
+    prefix:   /{_locale}/admin
+
+```
+
 ## Renderizando o menu de idiomas
 
 ```html

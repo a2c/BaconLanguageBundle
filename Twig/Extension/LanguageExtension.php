@@ -2,34 +2,56 @@
 
 namespace Bacon\Bundle\LanguageBundle\Twig\Extension;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use \Twig_Extension;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
+/**
+ * Class LanguageExtension
+ * @package Bacon\Bundle\LanguageBundle\Twig\Extension
+ * @author Adan Felipe Medeiros
+ */
 class LanguageExtension extends Twig_Extension
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
 
     /**
-     * @param ContainerInterface $container
+     * @var Router
      */
-    public function __construct(ContainerInterface $container)
+    private $router;
+
+    /**
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * @var Registry
+     */
+    private $doctrine;
+
+    /**
+     * LanguageExtension constructor.
+     *
+     * @param Router $router
+     * @param Request $request
+     * @param Registry $doctrine
+     */
+    public function __construct(Router $router,Request $request,Registry $doctrine)
     {
-        $this->container = $container;
+        $this->router   = $router;
+        $this->request  = $request;
+        $this->doctrine = $doctrine;
     }
 
     public function renderMenuLanguages()
     {
-        $router         =   $this->getContainer()->get('router');
-        $request        =   $this->getContainer()->get('request');
-
-        $languages      =   $this->getDoctrine()->getRepository('BaconLanguageBundle:Language')->findAll();
+        $languages          =   $this->getDoctrine()->getRepository('BaconLanguageBundle:Language')->findAll();
 
         $htmlReturn = '';
         foreach ($languages as $lang) {
-            $htmlReturn .= '<li><a href="' . $router->generate('locale_change', [ 'current' => $request->getLocale(), 'locale' => $lang->getAcron()]) . '"><span class="flag-icon flag-icon-'. $this->getAcronByLocale($lang->getLocale()) .'"></span>&nbsp;&nbsp;&nbsp;'. $lang->getName() .'</a></li>';
+            $routerParamters['_locale'] = $lang->getAcron();
+            $htmlReturn .= '<li><a href="' . $this->router->generate('locale_change', [ 'current' => $this->request->getLocale(), 'locale' => $lang->getAcron()]) . '"><span class="flag-icon flag-icon-'. $this->getAcronByLocale($lang->getLocale()) .'"></span>&nbsp;&nbsp;&nbsp;'. $lang->getName() .'</a></li>';
         }
 
         return $htmlReturn;
@@ -50,15 +72,7 @@ class LanguageExtension extends Twig_Extension
      */
     public function getDoctrine()
     {
-        return $this->container->get('doctrine');
-    }
-
-    /**
-     * @return ContainerInterface
-     */
-    public function getContainer()
-    {
-        return $this->container;
+        return $this->doctrine;
     }
 
     /**
@@ -74,5 +88,4 @@ class LanguageExtension extends Twig_Extension
         $country = explode('_', $locale);
         return strtolower($country[1]);
     }
-
 }

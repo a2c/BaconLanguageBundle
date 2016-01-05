@@ -21,6 +21,7 @@ class LocaleController extends AdminController
 {
     /**
      * @Route("/change/locale/{current}/{locale}/",name="locale_change")
+     * @Method("GET")
      */
     public function setLocaleAction(Request $request,$current,$locale)
     {
