@@ -25,10 +25,7 @@ class LanguageFormType extends AbstractType
                 ->add('acron')
                 ->add('locale')
                 ->add('orderBy')
-                ->add('image','jb_image_ajax',[
-                    'endpoint' => 'language',
-                    'img_width' => 50
-                ])
+                ->add('image')
                 ->add('published',null,[
                     'attr' => [
                         'class' => 'icheck'
@@ -43,10 +40,10 @@ class LanguageFormType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'search'     => false,
             'data_class' => 'Bacon\Bundle\LanguageBundle\Entity\Language'
-        ));
+        ]);
     }
 
     /**

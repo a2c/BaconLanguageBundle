@@ -44,12 +44,12 @@ class LanguageController extends AdminController
             'route' => '',
         ));
 
+        $entity = new Language();
+        $query = $this->getDoctrine()->getRepository('BaconLanguageBundle:Language')->getQueryPagination($entity,$sort,$direction);
+
         if ($this->get('session')->has('language_search_session')) {
             $objSerialize = $this->get('session')->get('language_search_session');
             $entity = unserialize($objSerialize);
-            $query = $this->getDoctrine()->getRepository('BaconLanguageBundle:Language')->getQueryPagination($entity,$sort,$direction);
-        } else {
-            $entity = new Language();
             $query = $this->getDoctrine()->getRepository('BaconLanguageBundle:Language')->getQueryPagination($entity,$sort,$direction);
         }
 
@@ -153,7 +153,7 @@ class LanguageController extends AdminController
             $this->get('session')->getFlashBag()
         );
 
-        if ($id = $handler->save()) {
+        if ($handler->save()) {
             return $this->redirect($this->generateUrl('admin_language'));
         }
 
@@ -251,7 +251,7 @@ class LanguageController extends AdminController
             $this->get('session')->getFlashBag()
         );
 
-        if ($id = $handler->save()) {
+        if ($handler->save()) {
             return $this->redirect($this->generateUrl('admin_language'));
         }
 
