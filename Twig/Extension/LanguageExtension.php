@@ -50,7 +50,6 @@ class LanguageExtension extends Twig_Extension
 
         $htmlReturn = '';
         foreach ($languages as $lang) {
-            $routerParamters['_locale'] = $lang->getAcron();
             $htmlReturn .= '<li><a href="' . $this->router->generate('locale_change', [ 'current' => $this->request->getLocale(), 'locale' => $lang->getAcron()]) . '"><span class="flag-icon flag-icon-'. $this->getAcronByLocale($lang->getLocale()) .'"></span>&nbsp;&nbsp;&nbsp;'. $lang->getName() .'</a></li>';
         }
 
