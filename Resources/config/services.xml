@@ -7,7 +7,7 @@
     <services>
         <service id="bacon_language_twig_extension.language" class="Bacon\Bundle\LanguageBundle\Twig\Extension\LanguageExtension">
             <argument type="service" id="router" />
-            <argument type="service" id="request" strict="false"/>
+            <argument type="service" id="request_stack" strict="false"/>
             <argument type="service" id="doctrine" />
             <tag name="twig.extension" />
         </service>

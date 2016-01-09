@@ -4,7 +4,7 @@ namespace Bacon\Bundle\LanguageBundle\Twig\Extension;
 
 use \Twig_Extension;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
 /**
@@ -21,7 +21,7 @@ class LanguageExtension extends Twig_Extension
     private $router;
 
     /**
-     * @var Request
+     * @var RequestStack
      */
     private $request;
 
@@ -34,10 +34,10 @@ class LanguageExtension extends Twig_Extension
      * LanguageExtension constructor.
      *
      * @param Router $router
-     * @param Request $request
+     * @param RequestStack $request
      * @param Registry $doctrine
      */
-    public function __construct(Router $router,Request $request,Registry $doctrine)
+    public function __construct(Router $router,RequestStack $request,Registry $doctrine)
     {
         $this->router   = $router;
         $this->request  = $request;
@@ -50,7 +50,7 @@ class LanguageExtension extends Twig_Extension
 
         $htmlReturn = '';
         foreach ($languages as $lang) {
-            $htmlReturn .= '<li><a href="' . $this->router->generate('locale_change', [ 'current' => $this->request->getLocale(), 'locale' => $lang->getAcron()]) . '"><span class="flag-icon flag-icon-'. $this->getAcronByLocale($lang->getLocale()) .'"></span>&nbsp;&nbsp;&nbsp;'. $lang->getName() .'</a></li>';
+            $htmlReturn .= '<li><a href="' . $this->router->generate('locale_change', [ 'current' => $this->request->getCurrentRequest()->getLocale(), 'locale' => $lang->getAcron()]) . '"><span class="flag-icon flag-icon-'. $this->getAcronByLocale($lang->getLocale()) .'"></span>&nbsp;&nbsp;&nbsp;'. $lang->getName() .'</a></li>';
         }
 
         return $htmlReturn;
