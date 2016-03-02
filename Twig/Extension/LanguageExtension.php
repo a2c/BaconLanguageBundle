@@ -56,16 +56,22 @@ class LanguageExtension extends Twig_Extension
         return $htmlReturn;
     }
 
+    public function numberOfMenuLanguages()
+    {
+        return count($this->getDoctrine()->getRepository('BaconLanguageBundle:Language')->findAll());
+    }
+
     /**
      * @return array
      */
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('bacon_menu_language_render', array($this, 'renderMenuLanguages'), array('is_safe' => array('html')))
+            new \Twig_SimpleFunction('bacon_menu_language_render', array($this, 'renderMenuLanguages'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction('bacon_menu_language_number', array($this, 'numberOfMenuLanguages'), array('is_safe' => array('html')))
         ];
     }
-
+    
     /**
      * @return \Doctrine\Bundle\DoctrineBundle\Registry
      */
